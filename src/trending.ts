@@ -17,9 +17,9 @@ export function getTrending(number = Number.MAX_SAFE_INTEGER, type = Watchable.M
     map((data_$: any) => {
       let trending: Trending[] = [];
 
-      const allElementsCount = data_$(trending_element_container_selector).length;
-      for (let i = 1; i <= number && i <= allElementsCount; i++) {
-        trending.push(new Trending(data_$, i));
+      const watchables = data_$(trending_element_container_selector);
+      for (let i = 0; i < number && i < watchables.length; i++) {
+        trending.push(new Trending(data_$, watchables[i]));
       }
 
       return trending;
