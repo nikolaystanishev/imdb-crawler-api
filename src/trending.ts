@@ -1,30 +1,24 @@
-
-import request from 'request-promise-native';
-import cheerio from 'cheerio';
-
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Trending } from './data/objects';
+import { getHTMLObservable } from './data/request';
+import { trending_element_container_selector } from './data/selectors';
+import { Watchable } from './data/types';
 
 
-const URLs: { [key: string]: string } = {
-  tv: "https://www.imdb.com/chart/tvmeter",
-  movie: "https://www.imdb.com/chart/moviemeter"
+const URLs: { [key in Watchable]: string } = {
+  [Watchable.TV]: 'https://www.imdb.com/chart/tvmeter',
+  [Watchable.MOVIE]: 'https://www.imdb.com/chart/moviemeter'
 }
 
-
-export function getTrending(number = 50, type = "movie"): Observable<Trending[]> {
-  const options = {
-    uri: URLs[type],
-    transform: (html: string | { toString(): string; }) => cheerio.load(html)
-  }
-
-  return from(request(options).promise()).pipe(
-    map((data_$) => {
+export function getTrending(number = Number.MAX_SAFE_INTEGER, type = Watchable.MOVIE): Observable<Trending[]> {
+  return getHTMLObservable(URLs[type]).pipe(
+    map((data_$: any) => {
       let trending: Trending[] = [];
 
-      for (let i = 1; i <= number; i++) {
+      const allElementsCount = data_$(trending_element_container_selector).length;
+      for (let i = 1; i <= number && i <= allElementsCount; i++) {
         trending.push(new Trending(data_$, i));
       }
 
