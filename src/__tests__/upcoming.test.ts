@@ -1,5 +1,5 @@
-import { Upcoming } from "../data/objects";
-import { getUpcoming } from "../upcoming";
+import { Upcoming } from '../data/objects';
+import { getUpcoming } from '../..';
 
 test('should get all upcoming movies', async () => {
   let result: Upcoming[] = await getUpcoming();

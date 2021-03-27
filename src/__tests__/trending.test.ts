@@ -1,4 +1,4 @@
-import { getTrending } from '../../index';
+import { getTrending } from '../..';
 import { Trending } from '../data/objects';
 import { Watchable } from '../data/types';
 
