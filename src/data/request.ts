@@ -1,14 +1,11 @@
-import request from 'request-promise-native';
 import cheerio from 'cheerio';
+import fetch from 'cross-fetch';
 
-import { from } from 'rxjs';
 
-
-export function getHTMLObservable(url: string) {
-  const options = {
-    uri: url,
-    transform: (html: string | { toString(): string; }) => cheerio.load(html)
-  }
-
-  return from(request(options).promise());
+export function getHTMLPage(url: string): Promise<any> {
+  return fetch(url)
+    .then(res => {
+      return res.text();
+    })
+    .then((html: string | { toString(): string; }) => cheerio.load(html));
 }
