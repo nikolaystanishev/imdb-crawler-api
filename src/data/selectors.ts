@@ -7,6 +7,7 @@ export const trending_rating_selector = 'td:nth-child(3) > strong';
 
 export const upcoming_all_selector = '#main li';
 
+export const watchable_id_selector = '.add_to_checkins';
 export const watchable_title_selector = '.title_wrapper > h1:nth-child(1)';
 export const watchable_runtime_selector = '.subtext time';
 export const watchable_year_selector = '#titleYear > a:nth-child(1)';
@@ -21,3 +22,7 @@ export const watchable_episode_count_episodes_selector = '.bp_sub_heading';
 export const watchable_episode_count_seasons_selector = '.seasons-and-year-nav > div:nth-child(4) > a:nth-child(1)';
 export const watchable_similar_movie_container_selector = '.rec_poster';
 export const watchable_similar_movie_element_selector = '.rec_poster_img';
+export const watchable_cast_list = '.cast_list tr';
+export const watchable_star_poster = '.primary_photo img';
+export const watchable_star_characters = '.character';
+export const watchable_star_series_info = 'toggle-episodes';

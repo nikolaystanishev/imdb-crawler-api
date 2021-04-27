@@ -10,5 +10,5 @@ const URLs: { [key in Watchable]: string } = {
 }
 
 export function getTrending(number = Number.MAX_SAFE_INTEGER, type = Watchable.MOVIE): Promise<Trending[]> {
-  return abstractCollectionCrawler<Trending>(URLs[type], number, trending_element_container_selector, Trending);
+  return abstractCollectionCrawler<Trending>(URLs[type], number, 0, trending_element_container_selector, Trending);
 }

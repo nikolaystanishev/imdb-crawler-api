@@ -1,25 +1,32 @@
 import cheerio from 'cheerio';
 import fetch from 'cross-fetch';
 
+import { IdNode } from './objects';
+
 
 const BASE_URL = 'https://www.imdb.com/'
 
-export function abstractCollectionCrawler<T>(
-  url: string, numberOfReturnObjects: number, container_selector: string, TYPE: (new (data_$: any, movie: any) => T)
+
+export function abstractCollectionCrawler<T extends IdNode>(
+  url: string, numberOfReturnObjects: number, startElement: number, container_selector: string, TYPE: (new (data_$: any, element: any) => T)
 ): Promise<T[]> {
   return getHTMLPage(url).then(
     data_$ => {
-      let upcoming: T[] = [];
+      let result: T[] = [];
 
-      const movies = data_$(container_selector);
-      for (let i = 0; i < numberOfReturnObjects && i < movies.length; i++) {
-        upcoming.push(new TYPE(data_$, movies[i]));
+      const elements = data_$(container_selector);
+      for (let i = startElement; i < numberOfReturnObjects && i < elements.length; i++) {
+        const object = new TYPE(data_$, elements[i]);
+        if (object.id != null) {
+          result.push(object);
+        }
       }
 
-      return upcoming;
+      return result;
     }
   );
 }
+
 
 export function abstractObjectCrawler<T>(url: string, TYPE: (new (data_$: any) => T)): Promise<T> {
   return getHTMLPage(url).then(data_$ => {
