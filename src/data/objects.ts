@@ -97,61 +97,61 @@ export class Watchable extends IdNode {
     this.episodeCount = this.getEpisodeCount(data_$);
     this.similarMovies = this.getSimilarMoviesById(data_$);
     this.stars = this.getStars();
-}
+  }
 
   getTitle(data_$: any): string {
-  const title = data_$(watchable_title_selector).text().trim();
-  return title.match(/\d{4}/) == null ? title : title.slice(0, -7);
-}
+    const title = data_$(watchable_title_selector).text().trim();
+    return title.match(/\d{4}/) == null ? title : title.slice(0, -7);
+  }
 
   getPro(data_$: any): { [key: string]: string[] } {
-  let creditDetails: { [key: string]: string[] } = {};
+    let creditDetails: { [key: string]: string[] } = {};
 
     data_$(watchable_pro_selector).each((index: any, el: any) => {
-    let creditText: string = data_$('.inline', el).text().trim().match(/\w*/)[0].toLowerCase().trim();
+      let creditText: string = data_$('.inline', el).text().trim().match(/\w*/)[0].toLowerCase().trim();
 
-    creditDetails[creditText] = [];
+      creditDetails[creditText] = [];
 
-    creditDetails[creditText].push(
-      data_$('a', el).first().text().trim()
-    );
+      creditDetails[creditText].push(
+        data_$('a', el).first().text().trim()
+      );
 
       data_$('a', el).nextUntil('span').each((index2: any, element: any) => {
-      creditDetails[creditText].push(data_$(element).text().trim());
+        creditDetails[creditText].push(data_$(element).text().trim());
+      });
     });
-  });
-  return creditDetails;
-}
+    return creditDetails;
+  }
 
   getGenre(data_$: any): string[] {
-  let genreString = data_$(watchable_genre_selector).text().split('\n');
-  genreString.pop();
-  genreString.splice(0, 2);
-  return genreString.join('').split('|').map((gen: string) => gen.trim());
-}
+    let genreString = data_$(watchable_genre_selector).text().split('\n');
+    genreString.pop();
+    genreString.splice(0, 2);
+    return genreString.join('').split('|').map((gen: string) => gen.trim());
+  }
 
   getEpisodeCount(data_$: any): { [key: string]: string } {
-  let headingText = data_$(watchable_episode_count_heading_selector).text().trim();
-  if (headingText == 'Episode Guide') {
-    return {
-      episodes: data_$(watchable_episode_count_episodes_selector).text().trim(),
-      seasons: data_$(watchable_episode_count_seasons_selector).text().trim()
-    };
-  } else {
-    return {};
+    let headingText = data_$(watchable_episode_count_heading_selector).text().trim();
+    if (headingText == 'Episode Guide') {
+      return {
+        episodes: data_$(watchable_episode_count_episodes_selector).text().trim(),
+        seasons: data_$(watchable_episode_count_seasons_selector).text().trim()
+      };
+    } else {
+      return {};
+    }
   }
-}
 
   getSimilarMoviesById(data_$: any): SimiliarWatchable[] {
-  const similarMoviesList = data_$(watchable_similar_movie_container_selector).map((index: any, element: any) => {
-    const id = data_$(element).find('a')[0].attribs.href.split('/')[2];
-    const _title = data_$(element).find(watchable_similar_movie_element_selector).attr('title') || '';
-    const _poster = data_$(element).find(watchable_similar_movie_element_selector).attr('loadlate') || '';
+    const similarMoviesList = data_$(watchable_similar_movie_container_selector).map((index: any, element: any) => {
+      const id = data_$(element).find('a')[0].attribs.href.split('/')[2];
+      const _title = data_$(element).find(watchable_similar_movie_element_selector).attr('title') || '';
+      const _poster = data_$(element).find(watchable_similar_movie_element_selector).attr('loadlate') || '';
 
       return new SimiliarWatchable(id, _title.trim(), _poster.trim());
-  });
-  return Array.from(similarMoviesList);
-}
+    });
+    return Array.from(similarMoviesList);
+  }
 
   getStars(): Promise<WatchableActor[]> {
     return abstractCollectionCrawler<WatchableActor>(`/title/${this.id}/fullcredits?ref_=tt_cl_sm#cast`, Number.MAX_SAFE_INTEGER, 1, watchable_cast_list, WatchableActor);
@@ -212,5 +212,23 @@ export class WatchableActor extends IdNode {
         this.characters.push(elString);
       }
     });
+  }
+}
+
+
+export class Actor {
+  name: string;
+  info: string;
+  image: string;
+  actorBirth: string;
+  bornInfo: string;
+
+  constructor(data_$: any) {
+    this.info = data_$("div.inline").text().split("\n").join(" ").split("...")[0].trim();
+    this.actorBirth = data_$("div#name-born-info a:nth-child(1)").text().trim() + ", " +
+      data_$("div#name-born-info a:nth-child(2)").text().trim();
+    this.bornInfo = data_$("div#name-born-info a:nth-child(3)").text().trim();
+    this.name = data_$("h1.header span.itemprop").text().trim();
+    this.image = data_$("a img#name-poster").attr("src").trim();
   }
 }
