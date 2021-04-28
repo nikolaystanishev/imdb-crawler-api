@@ -1,5 +1,5 @@
 import { getActor } from '../..';
-import { Actor } from '../data/objects';
+import { Actor } from '../actor';
 
 test('should get actor', async () => {
   const result: Actor = await getActor('nm0004989');
@@ -14,6 +14,6 @@ test('should get actor', async () => {
   expect(result.image).toBe(
     'https://m.media-amazon.com/images/M/MV5BMTkxODc5ODI5OV5BMl5BanBnXkFtZTcwNzExOTUyNw@@._V1_UX214_CR0,0,214,317_AL_.jpg'
   );
-  expect(result.actorBirth).toBe('March 24, 1974');
+  expect(result.birth).toBe('March 24, 1974');
   expect(result.bornInfo).toBe('Washington, District of Columbia, USA');
 });

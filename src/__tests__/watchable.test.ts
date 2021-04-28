@@ -1,5 +1,5 @@
 import { getWatchable } from '../..';
-import { Watchable, WatchableActor } from '../data/objects';
+import { Watchable, WatchableActor } from '../watchable';
 
 test('should get movie', async () => {
   const result: Watchable = await getWatchable('tt1986180');
