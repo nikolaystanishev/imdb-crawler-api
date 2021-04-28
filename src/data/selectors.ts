@@ -26,3 +26,18 @@ export const watchable_cast_list = '.cast_list tr';
 export const watchable_star_poster = '.primary_photo img';
 export const watchable_star_characters = '.character';
 export const watchable_star_series_info = 'toggle-episodes';
+
+export const actor_name = 'h1.header span.itemprop';
+export const actor_image = 'a img#name-poster';
+export const actor_info = 'div.inline';
+export const actor_birth = ['div#name-born-info a:nth-child(1)', 'div#name-born-info a:nth-child(2)']
+export const actor_born = 'div#name-born-info a:nth-child(3)';
+
+export const search_watchable_id = 'td:nth-child(2) > a:nth-child(1)';
+export const search_watchable_name = 'td:nth-child(2) > a:nth-child(1)';
+export const search_watchable_poster = 'td:nth-child(1) > a:nth-child(1) > img:nth-child(1)';
+export const search_watchable_year_type = 'td:nth-child(2)';
+
+export const search_actor_id = 'td.primary_photo > a';
+export const search_actor_name = 'td.result_text > a';
+export const search_actor_image = 'td.primary_photo > a > img';
