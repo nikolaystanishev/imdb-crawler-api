@@ -42,11 +42,11 @@ export class SearchWatchable extends IdNode {
       posterAttribs.loadlate.split("@._")[0] + "@._V1_QL50.jpg" :
       posterAttribs.src.split("@._")[0] + "@._V1_QL50.jpg";
     let yearType: string[] =
-      data_$(element).find(search_watchable_year_type).text().replace(this.name, '').trim().split(') (');
-    this.type = yearType.pop()?.replace(')', '').trim();
-    this.year = yearType.pop()?.replace('(', '').trim();
+      data_$(data_$(element).find(search_watchable_year_type).children()[0].next).text().trim().split(') (');
+    this.type = yearType.pop()?.replace('(', '').replace(')', '').trim();
+    this.year = yearType.pop()?.replace('(', '').replace(')', '').trim();
     if (yearType.length == 1) {
-      this.part = yearType.pop()?.replace('(', '').trim();
+      this.part = yearType.pop()?.replace('(', '').replace(')', '').trim();
     }
   }
 }
