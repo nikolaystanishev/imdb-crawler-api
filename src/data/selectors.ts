@@ -41,3 +41,10 @@ export const search_watchable_year_type = 'td:nth-child(2)';
 export const search_actor_id = 'td.primary_photo > a';
 export const search_actor_name = 'td.result_text > a';
 export const search_actor_image = 'td.primary_photo > a > img';
+
+export const episodes_container = '.eplist > .list_item';
+export const episode_story = '.info > .item_description';
+export const episode_poster = 'div:nth-child(1) > a:nth-child(1) > div:nth-child(1) > img:nth-child(1)';
+export const episode_name = 'div.info > strong > a';
+export const episode_air_date = '.info > .airdate';
+export const episode_rating = '.info > .ipl-rating-widget > .ipl-rating-star > .ipl-rating-star__rating';

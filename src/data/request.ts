@@ -5,6 +5,7 @@ import { IdNode } from './objects';
 
 
 const BASE_URL = 'https://www.imdb.com/'
+const BASE_REST_URL = 'https://v2.sg.media-imdb.com/'
 
 
 export function abstractCollectionCrawler<T extends IdNode>(
@@ -28,6 +29,23 @@ export function abstractCollectionCrawler<T extends IdNode>(
 }
 
 
+export function abstractCollectionREST<T extends IdNode>(
+  url: string, container_selector: string, TYPE: (new (data: any) => T)
+): Promise<T[]> {
+  return getRESTResponse(url).then(
+    data => {
+      let result: T[] = [];
+
+      for (const searchResult in data[container_selector]) {
+        result.push(new TYPE(searchResult));
+      }
+
+      return result;
+    }
+  );
+}
+
+
 export function abstractObjectCrawler<T>(url: string, TYPE: (new (data_$: any) => T)): Promise<T> {
   return getHTMLPage(url).then(data_$ => {
     return new TYPE(data_$);
@@ -41,4 +59,15 @@ export function getHTMLPage(url: string): Promise<any> {
       return res.text();
     })
     .then((html: string | { toString(): string; }) => cheerio.load(html));
+}
+
+
+export function getRESTResponse(url: string): Promise<any> {
+  return fetch(BASE_REST_URL + url)
+    .then(res => {
+      return res.text();
+    })
+    .then(data => {
+      return JSON.parse(data.slice(data.indexOf('('), -1));
+    });
 }

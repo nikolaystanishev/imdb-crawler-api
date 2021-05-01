@@ -13,7 +13,7 @@ import {
 
 export function getSearchWatchable(searchQuery: string): Promise<SearchWatchable[]> {
   return abstractCollectionCrawler<SearchWatchable>(
-    `find?q=${encodeURIComponent(searchQuery)}&s=tt&exact=true&ref_=fn_al_tt_ex`, 20, 0, 'tr.findResult',
+    `find?q=${encodeURIComponent(searchQuery)}&s=tt&exact=true&ref_=fn_al_tt_ex`, Number.MAX_SAFE_INTEGER, 0, 'tr.findResult',
     SearchWatchable
   );
 }
@@ -21,7 +21,7 @@ export function getSearchWatchable(searchQuery: string): Promise<SearchWatchable
 
 export function getSearchActor(searchQuery: string): Promise<SearchActor[]> {
   return abstractCollectionCrawler<SearchActor>(
-    `find?ref_=nv_sr_fn&q=${encodeURIComponent(searchQuery)}&s=nm`, 20, 0, 'tr', SearchActor
+    `find?ref_=nv_sr_fn&q=${encodeURIComponent(searchQuery)}&s=nm`, Number.MAX_SAFE_INTEGER, 0, 'tr', SearchActor
   );
 }
 
@@ -39,8 +39,8 @@ export class SearchWatchable extends IdNode {
     this.name = data_$(element).find(search_watchable_name).text();
     const posterAttribs = data_$(element).find(search_watchable_poster)[0].attribs;
     this.poster = posterAttribs.loadlate ?
-      posterAttribs.loadlate.split("@._")[0] + "@._V1_QL50.jpg" :
-      posterAttribs.src.split("@._")[0] + "@._V1_QL50.jpg";
+      posterAttribs.loadlate.split('@._')[0] + '@._V1_QL50.jpg' :
+      posterAttribs.src.split('@._')[0] + '@._V1_QL50.jpg';
     let yearType: string[] =
       data_$(data_$(element).find(search_watchable_year_type).children()[0].next).text().trim().split(') (');
     this.type = yearType.pop()?.replace('(', '').replace(')', '').trim();

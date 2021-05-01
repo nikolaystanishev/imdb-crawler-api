@@ -1,5 +1,5 @@
 import { getWatchable } from '../..';
-import { Watchable, WatchableActor } from '../watchable';
+import { getWatchableSeasonEpisodes, Watchable, WatchableActor, WatchableEpisode } from '../watchable';
 
 test('should get movie', async () => {
   const result: Watchable = await getWatchable('tt1986180');
@@ -84,3 +84,18 @@ test('should get series', async () => {
     episodeCount: '208'
   }]));
 });
+
+test('should get series season episodes', async () => {
+  let result: WatchableEpisode[] = await getWatchableSeasonEpisodes('tt0460649', '5');
+
+  expect(result).toHaveLength(24);
+  expect(result[0].name).toBe('Definitions');
+  expect(result[0].poster).toBe(
+    'https://m.media-amazon.com/images/M/MV5BOTM2MTEyODU0OF5BMl5BanBnXkFtZTcwMTc3MzM4Mg@@._V1_QL50.jpg'
+  );
+  expect(result[0].story).toBe(
+    'As Ted begins his new career as a professor and is about to meet his future wife, Lily forces Barney and Robin to have "the talk" and define their new relationship.'
+  );
+  expect(result[0].airDate).toBe('21 Sep. 2009');
+  expect(result[0].rating).toBe('8.5');
+})

@@ -2,6 +2,8 @@ import { IdNode } from './data/objects';
 import { Parsers } from './data/parsers';
 import { abstractCollectionCrawler, abstractObjectCrawler } from './data/request';
 import {
+  episode_story,
+  episodes_container,
   watchable_cast_list,
   watchable_episode_count_episodes_selector,
   watchable_episode_count_heading_selector,
@@ -20,12 +22,22 @@ import {
   watchable_story_selector,
   watchable_title_selector,
   watchable_year_alt_selector,
-  watchable_year_selector
+  watchable_year_selector,
+  episode_poster,
+  episode_name,
+  episode_air_date,
+  episode_rating
 } from './data/selectors';
 
 
 export function getWatchable(id: string): Promise<Watchable> {
   return abstractObjectCrawler<Watchable>(`/title/${id}/?ref_=nv_sr_1`, Watchable);
+}
+
+export function getWatchableSeasonEpisodes(id: string, season: string): Promise<WatchableEpisode[]> {
+  return abstractCollectionCrawler<WatchableEpisode>(
+    `title/${id}/episodes?season=${season}`, Number.MAX_SAFE_INTEGER, 0, episodes_container, WatchableEpisode
+  );
 }
 
 
@@ -139,7 +151,7 @@ export class WatchableActor extends IdNode {
   episodeCount: string | null;
 
   constructor(data_$: any, actor: any) {
-    const actorName = data_$(data_$(actor).find("td")[1]).find('a');
+    const actorName = data_$(data_$(actor).find('td')[1]).find('a');
 
     if (actorName.length == 0) {
       super(null);
@@ -172,5 +184,25 @@ export class WatchableActor extends IdNode {
         this.characters.push(elString);
       }
     });
+  }
+}
+
+export class WatchableEpisode extends IdNode {
+  name: string;
+  poster: string;
+  story: string;
+  airDate: string;
+  rating: string;
+
+  constructor(data_$: any, element: any) {
+    super('id');
+
+    this.name = data_$(element).find(episode_name).text();
+    const posterElement = data_$(element).find(episode_poster)[0];
+    this.poster = posterElement ? posterElement.attribs.src.split('@._')[0] + '@._V1_QL50.jpg' : '';
+    const story = data_$(element).find(episode_story).text().trim();
+    this.story = story.includes('about?') ? 'N/A' : story;
+    this.airDate = data_$(element).find(episode_air_date).text().trim();
+    this.rating = data_$(element).find(episode_rating).text().trim();
   }
 }

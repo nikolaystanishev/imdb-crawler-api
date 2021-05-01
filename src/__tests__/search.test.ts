@@ -3,9 +3,9 @@ import { SearchWatchable } from '../search';
 
 
 test('should get search watchable', async () => {
-  let result: SearchWatchable[] = await getSearchWatchable("flash");
+  let result: SearchWatchable[] = await getSearchWatchable('flash');
 
-  expect(result).toHaveLength(20);
+  expect(result).toHaveLength(60);
   expect(Object.keys(result[0])).toEqual(expect.arrayContaining(['id', 'name', 'poster', 'year', 'type']));
   expect(Object.keys(result[2])).toEqual(expect.arrayContaining(['id', 'name', 'poster', 'year', 'type', 'part']));
 
@@ -30,9 +30,9 @@ test('should get search watchable', async () => {
 });
 
 test('should get search actors', async () => {
-  let result = await getSearchActor("flash");
+  let result = await getSearchActor('flash');
 
-  expect(result).toHaveLength(20);
+  expect(result).toHaveLength(200);
   expect(Object.keys(result[0])).toEqual(expect.arrayContaining(['id', 'name', 'poster']));
   expect(result).toEqual(expect.arrayContaining([{
     id: 'nm1862367',
