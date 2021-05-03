@@ -26,7 +26,8 @@ import {
   episode_poster,
   episode_name,
   episode_air_date,
-  episode_rating
+  episode_rating,
+  episode_season_episode
 } from './data/selectors';
 
 
@@ -191,8 +192,10 @@ export class WatchableEpisode extends IdNode {
   name: string;
   poster: string;
   story: string;
-  airDate: string;
+  airDate: Date | null;
   rating: string;
+  season: string;
+  episode: string;
 
   constructor(data_$: any, element: any) {
     super('id');
@@ -202,7 +205,11 @@ export class WatchableEpisode extends IdNode {
     this.poster = posterElement ? posterElement.attribs.src.split('@._')[0] + '@._V1_QL50.jpg' : '';
     const story = data_$(element).find(episode_story).text().trim();
     this.story = story.includes('about?') ? 'N/A' : story;
-    this.airDate = data_$(element).find(episode_air_date).text().trim();
+    const release = data_$(element).find(episode_air_date).text().trim();
+    this.airDate = release != '' ? new Date(release) : null;
     this.rating = data_$(element).find(episode_rating).text().trim();
+    const seasonEpisode: string[] = data_$(element).find(episode_season_episode).text().trim().split(', ');
+    this.season = seasonEpisode[0].replace('S', '');
+    this.episode = seasonEpisode[1].replace('Ep', '');
   }
 }

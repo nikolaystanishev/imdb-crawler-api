@@ -48,3 +48,4 @@ export const episode_poster = 'div:nth-child(1) > a:nth-child(1) > div:nth-child
 export const episode_name = 'div.info > strong > a';
 export const episode_air_date = '.info > .airdate';
 export const episode_rating = '.info > .ipl-rating-widget > .ipl-rating-star > .ipl-rating-star__rating';
+export const episode_season_episode = 'div:nth-child(1) > a:nth-child(1) > div:nth-child(1) > div:nth-child(2)';

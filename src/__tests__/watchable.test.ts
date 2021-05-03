@@ -96,6 +96,8 @@ test('should get series season episodes', async () => {
   expect(result[0].story).toBe(
     'As Ted begins his new career as a professor and is about to meet his future wife, Lily forces Barney and Robin to have "the talk" and define their new relationship.'
   );
-  expect(result[0].airDate).toBe('21 Sep. 2009');
+  expect(result[0].airDate).toEqual(new Date('21 Sep. 2009'));
   expect(result[0].rating).toBe('8.5');
+  expect(result[0].season).toBe('5');
+  expect(result[0].episode).toBe('1');
 })
