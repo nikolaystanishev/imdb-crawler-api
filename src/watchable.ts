@@ -105,7 +105,7 @@ export class Watchable extends IdNode {
 
   getEpisodeCount(data_$: any): { [key: string]: string } {
     let headingText = data_$(watchable_episode_count_heading_selector).text().trim();
-    if (headingText == 'Episode Guide') {
+    if (headingText.includes('Episode Guide')) {
       return {
         episodes: data_$(watchable_episode_count_episodes_selector).text().trim(),
         seasons: data_$(watchable_episode_count_seasons_selector).text().trim()
@@ -192,6 +192,7 @@ export class WatchableEpisode extends IdNode {
   name: string;
   poster: string;
   story: string;
+  airDateString: string;
   airDate: Date | null;
   rating: string;
   season: string;
@@ -205,8 +206,8 @@ export class WatchableEpisode extends IdNode {
     this.poster = posterElement ? posterElement.attribs.src.split('@._')[0] + '@._V1_QL50.jpg' : '';
     const story = data_$(element).find(episode_story).text().trim();
     this.story = story.includes('about?') ? 'N/A' : story;
-    const release = data_$(element).find(episode_air_date).text().trim();
-    this.airDate = release != '' ? new Date(release) : null;
+    this.airDateString = data_$(element).find(episode_air_date).text().trim();
+    this.airDate = this.airDateString != '' ? new Date(this.airDateString) : null;
     this.rating = data_$(element).find(episode_rating).text().trim();
     const seasonEpisode: string[] = data_$(element).find(episode_season_episode).text().trim().split(', ');
     this.season = seasonEpisode[0].replace('S', '');
