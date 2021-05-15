@@ -58,7 +58,7 @@ export function getHTMLPage(url: string): Promise<any> {
     .then(res => {
       return res.text();
     })
-    .then((html: string | { toString(): string; }) => cheerio.load(html));
+    .then((html: string) => cheerio.load(html));
 }
 
 

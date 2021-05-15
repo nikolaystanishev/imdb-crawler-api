@@ -74,7 +74,7 @@ test('should get series', async () => {
     'poster': 'https://m.media-amazon.com/images/M/MV5BNDVkYjU0MzctMWRmZi00NTkxLTgwZWEtOWVhYjZlYjllYmU4XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_UY190_CR0,0,128,190_AL_.jpg'
   }]));
 
-  expect(stars).toHaveLength(1353);
+  expect(stars).toHaveLength(1354);
   expect(stars).toEqual(expect.arrayContaining([{
     id: 'nm0004989',
     name: 'Alyson Hannigan',
