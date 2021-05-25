@@ -5,7 +5,7 @@ import { SearchWatchable } from '../search';
 test('should get search watchable', async () => {
   let result: SearchWatchable[] = await getSearchWatchable('flash');
 
-  expect(result).toHaveLength(60);
+  expect(result).toHaveLength(61);
   expect(Object.keys(result[0])).toEqual(expect.arrayContaining(['id', 'name', 'poster', 'year', 'type']));
   expect(Object.keys(result[2])).toEqual(expect.arrayContaining(['id', 'name', 'poster', 'year', 'type', 'part']));
 

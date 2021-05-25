@@ -8,6 +8,9 @@ export class Parsers {
     if (yearMatch == null) {
       yearMatch = year.match(/\d{4}/);
     }
-    return yearMatch[0].trim();
+    if (yearMatch != null) {
+      return yearMatch[0].trim();
+    }
+    return '';
   }
 }
